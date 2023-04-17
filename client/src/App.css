@@ -1,0 +1,97 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background-color: rgba(242,242,242,255);
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.facultybutton {
+  background-color: rgb(255, 255, 255);
+  height: 100px;
+  width: 200px;
+  font-size: 25px;
+  border-radius: 2px;
+  font-weight: bold;
+  border: none;
+  box-shadow: 5px 5px 15px  #d3d3d3;
+  color: rgba(30,138,240,255);  
+  cursor: pointer;
+}
+
+.roombutton{
+  background-color: rgb(255, 255, 255);
+  text-align: left;
+  height: 200px;
+  width: 300px;
+  font-size: 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  box-shadow: 5px 5px 15px  #d3d3d3;
+  color:#b1c1d1;
+  margin: 10px;
+  padding: 10px;
+  white-space: pre-line;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.roomdetail {
+  background-color: rgb(255, 255, 255);
+  height: 200px;
+  width: 350px;
+  font-size: 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  box-shadow: 5px 5px 15px  #d3d3d3;
+  color: rgba(30,138,240,255); 
+  margin: auto;
+  white-space: pre-line;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.Title{
+  color: rgba(30,138,240,255);
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.secondTitle{
+  color: rgba(30,138,240,255);  
+  font-size: 30px;
+  font-weight: bold;
+
+}
+
+
+.App-header {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

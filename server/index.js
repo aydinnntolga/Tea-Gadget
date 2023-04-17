@@ -19,3 +19,7 @@ app.listen(process.env.PORT || 5000, ()=>{
     console.log("Server is running!");
 });
 
+app.post("/post", (req, res) => {
+    console.log("Connected to React");
+    res.redirect("/");
+});
