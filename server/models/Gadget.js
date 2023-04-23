@@ -36,6 +36,11 @@ const gadgetSchema = new mongoose.Schema({
         type:Date,
         required: true,
 
+    },
+    brewinaday:{
+        type: Array,
+        required:true,
+        default: []
     }
 
 });
