@@ -32,7 +32,7 @@ function Home() {
         </form>         
 
         <form action='/updatelastbrew' method='post' className='form'>
-          <button> get tea</button>
+          <button> Brew</button>
         </form>
 
         </div> 

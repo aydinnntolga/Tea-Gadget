@@ -8,6 +8,8 @@ dotenv.config();
 
 const uri = "mongodb+srv://teagadget:teagadget@teagadget.ihhlcxe.mongodb.net/test";
 const client = new MongoClient(uri);
+const database = client.db("TeaGadget");
+const gadgets = database.collection("TeaGadget");    
 
 const connect = () =>{
     mongoose.connect(process.env.MONGO).then(()=>{
@@ -25,16 +27,13 @@ app.listen(process.env.PORT || 5000, ()=>{
 });
 
 app.post("/updatelastbrew", async (req, res) => {
-
-    const database = client.db("TeaGadget");
-    const gadgets = database.collection("TeaGadget");    
-
+ 
     const filter = {room_number:2020};
-
     const currentdate = new Date();
+    const updateddate = new Date(currentdate.getTime())
     const updateDoc = {
       $set: {
-        sincelastbrew: currentdate.toLocaleTimeString()
+        sincelastbrew: updateddate
       },
     };
     const result = await gadgets.updateOne(filter, updateDoc);
@@ -42,6 +41,23 @@ app.post("/updatelastbrew", async (req, res) => {
       `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
     );
     res.redirect("/");
+});
+
+
+app.get("/tearooms",async(req,res) => {
+    const brewtime=new Date()
+    gadgets.findOne({room_number:2020})
+    .then(data => {
+      const date = data.sincelastbrew.getHours().toString()+":"+data.sincelastbrew.getMinutes().toString()
+
+      const time = { 
+          brewtime_millisecond: data.sincelastbrew.getTime(),
+          room:data.room_number,
+          brewdate : data.sincelastbrew.toLocaleTimeString()
+        };    
+      res.json(time);
+    })
+    
 });
 
 app.post("/tearooms", (req, res) => {

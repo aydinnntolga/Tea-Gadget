@@ -1,26 +1,31 @@
 import './App.css';
-import { useNavigate } from "react-router-dom";
 import LiveClockUpdate from "./Components/LiveClockUpdate";
 import queryString from 'query-string';
+import React ,{useState,useEffect} from 'react';
+import axios from 'axios';
 
 function TeaRooms(props) {
 
-  const navigate = useNavigate();
+  const [data, setData] = useState(null);
 
-  const gotodetails = () => {
-    navigate('/roomdetails');
-  };  
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get('/tearooms');
+      setData(response.data);
+    }
+    fetchData();
+  }, []);  
 
-  let brewtime = new Date('2023-04-25T11:42:00')
+
+
+
+
   const queryParams = queryString.parse(window.location.search);
   const name = queryParams.name;
   const age = queryParams.age;  
 
   return (
-    <body>
-      <div>
-        <LiveClockUpdate date={brewtime}/>{" "}
-      </div>       
+    <body>     
       <div className="App">
         <header className="App-header">
             <p className="Title"> TEA ROOM GADGET </p>        
@@ -30,19 +35,33 @@ function TeaRooms(props) {
             FENS Tea Rooms {age} {name}
         </p>
 
-        <button onClick={gotodetails} className="roombutton">
+        <button className="roombutton">
             Floor: 2{"\n"}
-            Room Number: 2000 {"\n"}
-            Status: Ready {"\n"}
-            Ready In: 0 Minutes
+            Room Number: {data? data.room: <text></text>} {"\n"}
+            {data ? <LiveClockUpdate time={data.brewtime_millisecond} date={data.brewdate} />: 
+            
+            <text>
+              Status:{"\n"}
+              Ready In: {"\n"}
+              Last Brewing Time: {"\n"} None
+            </text>
+            }
+            
         </button>
         
-        <button onClick={gotodetails} className="roombutton">
-            Floor: 2 {"\n"}
-            Room Number: 2000 {"\n"}
-            Status: Not Ready {"\n"}
-            Ready In: 10 Minutes                           
-        </button>      
+        <button className="roombutton">
+            Floor: 2{"\n"}
+            Room Number: {data? data.room: <text></text>} {"\n"}
+            {data ? <LiveClockUpdate time={data.brewtime_millisecond} date={data.brewdate} />: 
+            
+            <text>
+              Status:{"\n"}
+              Ready In: {"\n"}
+              Last Brewing Time: {"\n"} None
+            </text>
+            }
+            
+        </button>          
 
       </div> 
       

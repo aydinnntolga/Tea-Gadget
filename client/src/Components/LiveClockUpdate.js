@@ -16,17 +16,56 @@ class LiveClockUpdate extends Component {
   }
 
   tick() {
+
     this.setState({
       date: new Date()
     });
   }
 
   render() {
-    return (
-      <div>
-        <h2>{(this.state.date.getTime()-this.props.date.getTime())/60000}.</h2>
-      </div>
-    );
+
+    if(parseInt(21-((this.state.date.getTime()-this.props.time))/60000)>0){
+      return (
+        <div>
+          <text>
+            Status: &nbsp;
+          </text>
+          <text style={{color:"LightCoral"}}>
+            Not Ready {"\n"}
+          </text>        
+          <text>
+            Ready In: {parseInt(21-((this.state.date.getTime()-this.props.time))/60000)} Minutes
+            {"\n"}
+          </text>
+          <text>
+            Last Brewing Time: {this.props.date}
+            
+          </text>          
+        </div>
+        
+      );      
+    }
+    else{
+      return (
+        <div>
+          <text>
+            Status: &nbsp;
+          </text>
+          <text style={{color:"DeepSkyBlue"}}>
+            Ready {"\n"}
+          </text>         
+          <text>
+            Ready In:{"\n"}
+          </text>
+          <text>
+            Last Brewing Time: {"\n"} {this.props.date}
+            
+          </text>             
+        </div>
+        
+      );
+    }
+    
   }
 }
 
