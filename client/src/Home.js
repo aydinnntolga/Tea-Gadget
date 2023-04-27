@@ -1,7 +1,7 @@
 import './App.css';
 
 function Home() {
-
+  
   return (
     <body>
              
@@ -13,23 +13,26 @@ function Home() {
         <p className='secondTitle'>
           Buildings
         </p>
-        <form action="/tearooms" method="post" className="form">
+        <form action="/tearooms/:FENS" method="post" className="form" name='buildingname'>
 
-          <button className="facultybutton">
+          <button value={"FENS"} className='facultybutton'>
               FENS                   
-          </button>      
-          <br></br>
-          <br></br>
-          <button className="facultybutton">
-              FASS
           </button>
-          <br></br>
-          <br></br>
-          <button className="facultybutton">
-              FMAN
-          </button>
+        </form>
+        <br></br>
+        <form action="/tearooms/:FASS" method="post" className="form" name='buildingname'>
 
-        </form>         
+          <button value={"FASS"} className='facultybutton'>
+              FASS                   
+          </button>
+        </form>
+        <br></br>
+        <form action="/tearooms/:FMAN" method="post" className="form" name='buildingname'>
+
+          <button value={"FMAN"} className='facultybutton'>
+              FMAN                   
+          </button>
+        </form>
 
         <form action='/updatelastbrew' method='post' className='form'>
           <button> Brew</button>

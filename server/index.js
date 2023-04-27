@@ -44,25 +44,33 @@ app.post("/updatelastbrew", async (req, res) => {
 });
 
 
-app.get("/tearooms",async(req,res) => {
+app.get("/tearooms/:buildingname",async(req,res) => {
     const brewtime=new Date()
-    gadgets.findOne({room_number:2020})
+    gadgets.findOne({faculty_name:req.params.buildingname.substring(1)})
     .then(data => {
-      const date = data.sincelastbrew.getHours().toString()+":"+data.sincelastbrew.getMinutes().toString()
+      if(data==null){
+        res.send("not found")
+      }
+      else{
+        const date = data.sincelastbrew.getHours().toString()+":"+data.sincelastbrew.getMinutes().toString()
 
-      const time = { 
-          brewtime_millisecond: data.sincelastbrew.getTime(),
-          room:data.room_number,
-          brewdate : data.sincelastbrew.toLocaleTimeString()
-        };    
-      res.json(time);
+        const time = { 
+            brewtime_millisecond: data.sincelastbrew.getTime(),
+            room:data.room_number,
+            brewdate : data.sincelastbrew.toLocaleTimeString()
+          };    
+        res.json(time);
+      }
+
+
     })
     
 });
 
-app.post("/tearooms", (req, res) => {
+app.post("/tearooms/:buildingname", (req, res) => {
     console.log("tea rooms loaded");
-    res.redirect("/tearooms")
+    const buildingname = req.params.buildingname.substring(1)
+    res.redirect("/tearooms/"+buildingname)
 });
 
 app.post("/loadroomdetails", (req, res) => {
