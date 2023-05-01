@@ -45,4 +45,4 @@ const gadgetSchema = new mongoose.Schema({
 
 });
 
-export default mongoose.model("Gadget",gadgetSchema);
+export default mongoose.model("TeaGadget",gadgetSchema);

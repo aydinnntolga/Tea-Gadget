@@ -1,30 +1,48 @@
 import './App.css';
+import LiveClockUpdate from "./Components/LiveClockUpdate";
+import React ,{useState,useEffect} from 'react';
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 
-function TeaRooms() {
+function TeaRooms(props) {
+
+  const [data, setData] = useState(null);
+  const { buildingname } = useParams();  
+
+  useEffect(() => {                         // warninge sonra bak
+    async function fetchData() {
+      
+      const response = await axios.get('/tearooms/:'+ buildingname); 
+      setData(response.data);
+    }
+    fetchData();
+  }, []);  //eslint-disable-line
+
   return (
-    <body>
+    <body>     
       <div className="App">
         <header className="App-header">
             <p className="Title"> TEA ROOM GADGET </p>        
         </header>
 
         <p className='secondTitle'>
-            FENS Tea Rooms
+            {buildingname} Tea Rooms
         </p>
 
         <button className="roombutton">
             Floor: 2{"\n"}
-            Room Number: 2000 {"\n"}
-            Status: Ready {"\n"}
-            Ready In: 0 Minutes
+            Room Number: {data? data.room: <text></text>} {"\n"}
+            {data ? <LiveClockUpdate time={data.brewtime_millisecond} date={data.brewdate} />: 
+            
+            <text>
+              Status:{"\n"}
+              Ready In: {"\n"}
+              Last Brewing Time: {"\n"} None
+            </text>
+            }
+            
         </button>
-        
-        <button className="roombutton">
-            Floor: 2 {"\n"}
-            Room Number: 2000 {"\n"}
-            Status: Not Ready {"\n"}
-            Ready In: 10 Minutes                           
-        </button>      
+                
 
       </div> 
       
