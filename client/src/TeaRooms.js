@@ -29,19 +29,25 @@ function TeaRooms(props) {
             {buildingname} Tea Rooms
         </p>
 
-        <button className="roombutton">
-            Floor: 2{"\n"}
-            Room Number: {data? data.room: <text></text>} {"\n"}
-            {data ? <LiveClockUpdate time={data.brewtime_millisecond} date={data.brewdate} />: 
-            
-            <text>
-              Status:{"\n"}
-              Ready In: {"\n"}
-              Last Brewing Time: {"\n"} None
-            </text>
-            }
-            
-        </button>
+        {data ? 
+            <div>
+              {data.map((item) => (
+                <button className="roombutton">
+                <div className='roomheader'>
+                  Room {item.room_number} {"\n"}
+                  Floor { item.floor}{"\n"}
+
+                </div>
+                
+
+                <LiveClockUpdate time={item.sincelastbrew} date={item.sincelastbrew} status={item.cauldron_status} />
+                  
+                </button>            
+
+              ))}        
+            </div>
+          :<text></text>
+        }
                 
 
       </div> 

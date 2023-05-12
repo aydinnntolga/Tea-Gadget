@@ -30,11 +30,16 @@ app.post("/updatelastbrew", async (req, res) => {
  
     const filter = {room_number:2020};
     const currentdate = new Date();
-    const updateddate = new Date(currentdate.getTime())
+    const updateddate = currentdate.toLocaleString()
     const updateDoc = {
       $set: {
-        sincelastbrew: updateddate
+        sincelastbrew: updateddate,
+        cauldron_status: "nonempty"
       },
+      $push: {
+        brewhistory: updateddate
+      }
+
     };
     const result = await gadgets.updateOne(filter, updateDoc);
     console.log(
@@ -43,26 +48,35 @@ app.post("/updatelastbrew", async (req, res) => {
     res.redirect("/");
 });
 
+app.post("/tearanout", async (req,res)=>{
+
+  const filter = {room_number:2020};
+  const updateDoc = {
+    $set: {
+      cauldron_status: "empty"
+    },
+  };
+  const result = await gadgets.updateOne(filter, updateDoc);
+  console.log(
+    `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+  );
+  res.redirect("/");  
+
+})
+
 
 app.get("/tearooms/:buildingname",async(req,res) => {
-    const brewtime=new Date()
-    gadgets.findOne({faculty_name:req.params.buildingname.substring(1)})
-    .then(data => {
-      if(data==null){
-        res.send("not found")
-      }
-      else{
-        const date = data.sincelastbrew.getHours().toString()+":"+data.sincelastbrew.getMinutes().toString()
 
-        const time = { 
+    gadgets.find({faculty_name:req.params.buildingname.substring(1)}).toArray()
+    .then(data => {
+        /*const time = { 
             brewtime_millisecond: data.sincelastbrew.getTime(),
             room:data.room_number,
-            brewdate : data.sincelastbrew.toLocaleTimeString()
-          };    
-        res.json(time);
-      }
-
-
+            brewdate : data.sincelastbrew.toLocaleTimeString(),
+            floor: data.floor,
+            cauldronstatus: data.cauldron_status
+          };*/
+        res.json(data);
     })
     
 });

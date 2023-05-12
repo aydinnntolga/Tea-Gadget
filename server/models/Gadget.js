@@ -33,14 +33,19 @@ const gadgetSchema = new mongoose.Schema({
         required:true,
     },
     sincelastbrew:{
-        type:Date,
+        type:String,
         required: true,
 
     },
-    brewinaday:{
+    brewhistory:{
         type: Array,
         required:true,
         default: []
+    },
+    floor:{
+        type: Number,
+        required:true,
+        default:0
     }
 
 });

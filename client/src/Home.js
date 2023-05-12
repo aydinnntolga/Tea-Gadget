@@ -37,6 +37,9 @@ function Home() {
         <form action='/updatelastbrew' method='post' className='form'>
           <button> Brew</button>
         </form>
+        <form action='/tearanout' method='post' className='form'>
+          <button> Tea Ran Out </button>
+        </form>
 
         </div> 
      
