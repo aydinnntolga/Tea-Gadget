@@ -26,7 +26,10 @@ class LiveClockUpdate extends Component {
 
 
   render() {
-    const myTimestamp = new Date(this.props.time).getTime();  
+    const myTimestamp = new Date(this.props.time).getTime()
+    var remainingTime = parseInt(21-((this.state.date.getTime()-myTimestamp))/60000)
+    var hoursElapsed = parseInt((this.state.date.getTime()-myTimestamp)/3600000)
+    var minutesElapsed = parseInt(((this.state.date.getTime()-myTimestamp)/60000)%60)
 
     if(this.props.status==="empty"){
       return (
@@ -43,9 +46,23 @@ class LiveClockUpdate extends Component {
           </text>
           <text>
             Last Brewing Time: {"\n"}
+            {hoursElapsed> 0 &&
             <span className="highlight">
-            {parseInt((this.state.date.getTime()-myTimestamp)/60000)} Minutes Ago
+              {hoursElapsed} Hour(s)
             </span>
+            }
+            {minutesElapsed >0 &&
+            <span className="highlight">
+              {' '}{minutesElapsed} Minute(s)        
+            </span>
+            }
+            { 
+              (hoursElapsed > 0 || minutesElapsed > 0) ?           
+              <span className="highlight">
+              {' '}Ago      
+              </span>:
+              <span className="highlight">Now</span>
+            }
           </text>          
         </div>
         
@@ -53,7 +70,7 @@ class LiveClockUpdate extends Component {
     }
     else{
 
-      if(parseInt(21-((this.state.date.getTime()-myTimestamp))/60000)>0){
+      if(remainingTime>0){
         return (
           <div>
             <text>
@@ -65,15 +82,30 @@ class LiveClockUpdate extends Component {
             <text>
               Ready In: &nbsp;
               <span className="highlight">
-                {parseInt(21-((this.state.date.getTime()-myTimestamp))/60000)} Minutes
+                {remainingTime} Minutes
               </span>
               {"\n"}
             </text>
             <text>
               Last Brewing Time: {"\n"}
+              {hoursElapsed > 0 &&
               <span className="highlight">
-              {parseInt((this.state.date.getTime()-myTimestamp)/60000)} Minutes Ago
-              </span>              
+                {hoursElapsed} Hour(s)
+              </span>
+              }
+              {minutesElapsed >0 &&
+              <span className="highlight">
+                {' '}{minutesElapsed} Minute(s)        
+              </span>
+              }
+              { 
+                (hoursElapsed > 0 || minutesElapsed > 0) ?            
+                <span className="highlight">
+                {' '}Ago      
+                </span>:
+                <span className="highlight">Now</span>
+                
+              }                                     
               
             </text>          
           </div>
@@ -94,10 +126,26 @@ class LiveClockUpdate extends Component {
             </text>
             <text>
               Last Brewing Time: {"\n"}
+              {hoursElapsed> 0 &&
               <span className="highlight">
-              {parseInt((this.state.date.getTime()-myTimestamp)/60000)} Minutes Ago
-              </span>              
-              
+                {hoursElapsed} Hour(s)
+              </span>
+              }
+              {minutesElapsed >0 &&
+              <span className="highlight">
+                {' '}{minutesElapsed} Minute(s)        
+              </span>
+              }
+              { 
+                (hoursElapsed > 0 || minutesElapsed > 0) ?            
+                <span className="highlight">
+                {' '}Ago      
+                </span>
+                :
+                <span className="highlight">Now</span>
+                
+
+              }                           
             </text>             
           </div>
           
