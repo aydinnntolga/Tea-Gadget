@@ -40,7 +40,9 @@ function Home() {
         <form action='/tearanout' method='post' className='form'>
           <button> Tea Ran Out </button>
         </form>
-
+        <form action='/teaready' method='post' className='form'>
+          <button> Tea Ready </button>
+        </form>
         </div> 
      
     </body>

@@ -29,7 +29,7 @@ app.listen(process.env.PORT || 5000, ()=>{
 app.post("/updatelastbrew", async (req, res) => {
     const room = parseInt(req.headers['roomnum']);
 
-    const filter = {room_number:room};
+    const filter = {room_number:1005};
     const currentdate = new Date();
     const updateddate = currentdate.toLocaleString()
     const updateDoc = {
@@ -54,7 +54,7 @@ app.post("/tearanout", async (req,res)=>{
   const room = parseInt(req.headers['roomnum']);
 
 
-  const filter = {room_number:room};
+  const filter = {room_number:1005};
   const updateDoc = {
     $set: {
       cauldron_status: "empty"
@@ -67,6 +67,61 @@ app.post("/tearanout", async (req,res)=>{
   res.redirect("/");  
 
 })
+
+app.post("/teaready", async (req,res)=>{
+
+  const room = parseInt(req.headers['roomnum']);
+
+
+  const filter = {room_number:1005};
+  const updateDoc = {
+    $set: {
+      cauldron_status: "nonempty"
+    },
+  };
+  const result = await gadgets.updateOne(filter, updateDoc);
+  
+
+
+  const document = await gadgets.findOne(filter)
+  var lastbrewingtime = document['sincelastbrew']
+  const currenttime = new Date().getTime()
+  lastbrewingtime = new Date(lastbrewingtime).getTime()
+
+
+  if((currenttime - lastbrewingtime) /60000 <20){
+
+
+    const prevbrewingtime =  document['brewhistory'][document['brewhistory'].length - 2];
+    
+    console.log(prevbrewingtime)
+
+    const removelast = {
+      $pop: {
+        brewhistory: 1
+      },
+    };
+    await gadgets.updateOne(filter, removelast);    
+
+    const updateDoc = {
+      $set: {
+        sincelastbrew: prevbrewingtime
+      },
+    };
+    await gadgets.updateOne(filter, updateDoc);    
+
+
+
+
+  }
+
+
+
+
+  res.redirect("/");  
+
+})
+
 
 
 app.get("/tearooms/:buildingname",async(req,res) => {
