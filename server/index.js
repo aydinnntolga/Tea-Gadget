@@ -27,8 +27,9 @@ app.listen(process.env.PORT || 5000, ()=>{
 });
 
 app.post("/updatelastbrew", async (req, res) => {
- 
-    const filter = {room_number:2020};
+    const room = parseInt(req.headers['roomnum']);
+
+    const filter = {room_number:room};
     const currentdate = new Date();
     const updateddate = currentdate.toLocaleString()
     const updateDoc = {
@@ -49,8 +50,11 @@ app.post("/updatelastbrew", async (req, res) => {
 });
 
 app.post("/tearanout", async (req,res)=>{
-  
-  const filter = {room_number:2020};
+
+  const room = parseInt(req.headers['roomnum']);
+
+
+  const filter = {room_number:room};
   const updateDoc = {
     $set: {
       cauldron_status: "empty"
