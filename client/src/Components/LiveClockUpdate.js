@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import '../App.css';
+import { withTranslation } from 'react-i18next';
+import i18n from '../resource'; 
 
 class LiveClockUpdate extends Component {
+
   constructor(props) {
     super(props);
-
     this.state = { date: new Date()};
   }
 
@@ -27,6 +29,7 @@ class LiveClockUpdate extends Component {
 
   render() {
     const myTimestamp = new Date(this.props.time).getTime()
+    const { t } = i18n
     var remainingTime = parseInt(21-((this.state.date.getTime()-myTimestamp))/60000)
     var hoursElapsed = parseInt((this.state.date.getTime()-myTimestamp)/3600000)
     var minutesElapsed = parseInt(((this.state.date.getTime()-myTimestamp)/60000)%60)
@@ -35,33 +38,33 @@ class LiveClockUpdate extends Component {
       return (
         <div>
           <text>
-            Status: &nbsp;
+          {t('status')}: &nbsp;
           </text>
           <text style={{color:"LightCoral"}}>
-            Tea Ran Out {"\n"}
+          {t('tea_ran_out')} {"\n"}
           </text>        
           <text>
-            Ready In: 
+          {t('ready_in')}
             {"\n"}
           </text>
           <text>
-            Last Brewing Time: {"\n"}
+          {t('last_brewing_time')} {"\n"}
             {hoursElapsed> 0 &&
             <span className="highlight">
-              {hoursElapsed} Hour(s)
+              {hoursElapsed} {t('hours')}
             </span>
             }
             {minutesElapsed >0 &&
             <span className="highlight">
-              {' '}{minutesElapsed} Minute(s)        
+              {' '}{minutesElapsed} {t('minutes')}        
             </span>
             }
             { 
               (hoursElapsed > 0 || minutesElapsed > 0) ?           
               <span className="highlight">
-              {' '}Ago      
+              {' '}{t('ago')}        
               </span>:
-              <span className="highlight">Now</span>
+              <span className="highlight">{t('now')}</span>
             }
           </text>          
         </div>
@@ -74,36 +77,36 @@ class LiveClockUpdate extends Component {
         return (
           <div>
             <text>
-              Status: &nbsp;
+            {t('status')}: &nbsp;
             </text>
             <text style={{color:"Orange"}}>
-              Getting Ready {"\n"}
+            {t('getting_ready')} {"\n"}
             </text>        
             <text>
-              Ready In: &nbsp;
+            {t('ready_in')} &nbsp;
               <span className="highlight">
-                {remainingTime} Minutes
+                {remainingTime} {t('minutes')} 
               </span>
               {"\n"}
             </text>
             <text>
-              Last Brewing Time: {"\n"}
+            {t('last_brewing_time')} {"\n"}
               {hoursElapsed > 0 &&
               <span className="highlight">
-                {hoursElapsed} Hour(s)
+                {hoursElapsed} {t('hours')}
               </span>
               }
               {minutesElapsed >0 &&
               <span className="highlight">
-                {' '}{minutesElapsed} Minute(s)        
+                {' '}{minutesElapsed} {t('minutes')}        
               </span>
               }
               { 
                 (hoursElapsed > 0 || minutesElapsed > 0) ?            
                 <span className="highlight">
-                {' '}Ago      
+                {' '}{t('ago')}        
                 </span>:
-                <span className="highlight">Now</span>
+                <span className="highlight">{t('now')}</span>
                 
               }                                     
               
@@ -116,33 +119,33 @@ class LiveClockUpdate extends Component {
         return (
           <div>
             <text>
-              Status: &nbsp;
+            {t('status')} : &nbsp;
             </text>
             <text style={{color:"DeepSkyBlue"}}>
-              Ready {"\n"}
+            {t('ready')} {"\n"}
             </text>         
             <text>
-              Ready In:{"\n"}
+            {t('ready_in')}:{"\n"}
             </text>
             <text>
-              Last Brewing Time: {"\n"}
+              {t('last_brewing_time')} {"\n"}
               {hoursElapsed> 0 &&
               <span className="highlight">
-                {hoursElapsed} Hour(s)
+                {hoursElapsed} {t('hours')}
               </span>
               }
               {minutesElapsed >0 &&
               <span className="highlight">
-                {' '}{minutesElapsed} Minute(s)        
+                {' '}{minutesElapsed} {t('minutes')}       
               </span>
               }
               { 
                 (hoursElapsed > 0 || minutesElapsed > 0) ?            
                 <span className="highlight">
-                {' '}Ago      
+                {' '} {t('ago')}     
                 </span>
                 :
-                <span className="highlight">Now</span>
+                <span className="highlight">{t('now')}</span>
                 
 
               }                           
@@ -156,4 +159,4 @@ class LiveClockUpdate extends Component {
   }
 }
 
-export default LiveClockUpdate;
+export default  withTranslation()(LiveClockUpdate);

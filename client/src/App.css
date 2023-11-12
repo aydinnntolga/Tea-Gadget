@@ -72,6 +72,8 @@ body {
   color: rgba(30,138,240,255);
   font-size: 50px;
   font-weight: bold;
+  width: 250px;
+  margin: auto;
 }
 
 .secondTitle{
@@ -85,7 +87,19 @@ body {
   font-size: 20px;
 }
 
+.languageButton {
 
+  color:#969797;  
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  background: none;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-top: 10px;
+}
 
 
 .App-header {

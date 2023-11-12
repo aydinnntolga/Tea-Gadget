@@ -3,11 +3,16 @@ import LiveClockUpdate from "./Components/LiveClockUpdate";
 import React ,{useState,useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import i18n from './resource'; 
+import { useTranslation } from 'react-i18next';
+
+var isChanged = false;
 
 function TeaRooms(props) {
 
   const [data, setData] = useState(null);
-  const { buildingname } = useParams();  
+  const { buildingname } = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {                         // warninge sonra bak
     async function fetchData() {
@@ -18,15 +23,38 @@ function TeaRooms(props) {
     fetchData();
   }, []);  //eslint-disable-line
 
+  const handleClick = () => {
+
+    if(i18n.language === 'tr'){
+      i18n.changeLanguage('en');
+      sessionStorage.setItem('language', 'en');
+    }
+    else{
+      i18n.changeLanguage('tr');
+      sessionStorage.setItem('language', 'tr');
+    }
+  };
+
+  const storedLanguage = sessionStorage.getItem('language');
+  if (storedLanguage && !isChanged) {
+    i18n.changeLanguage(storedLanguage);
+    isChanged = true;
+  }
+
   return (
     <body>     
       <div className="App">
+      <div style={{ display: "flex" }}>
+          <button onClick={handleClick} className='languageButton' > {t('language')} </button>
+        </div>
+        <br></br>
+
         <header className="App-header">
-            <p className="Title"> TEA ROOM GADGET </p>        
+            <p className="Title">  {t('tea_room_gadget')} </p>        
         </header>
 
         <p className='secondTitle'>
-            {buildingname} Tea Rooms
+            {buildingname} {t('tea_rooms')}
         </p>
 
         {data ? 
@@ -34,8 +62,8 @@ function TeaRooms(props) {
               {data.map((item) => (
                 <button className="roombutton">
                 <div className='roomheader'>
-                  Room {item.room_number} {"\n"}
-                  Floor { item.floor}{"\n"}
+                {t('room')} {item.room_number} {"\n"}
+                {t('floor')} { item.floor}{"\n"}
 
                 </div>
                 
