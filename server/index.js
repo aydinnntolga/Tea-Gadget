@@ -1,29 +1,72 @@
-import express from "express"
-import mongoose from "mongoose"
-import dotenv from "dotenv"
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
+import CASAuthentication from 'cas-authentication';
+import session from 'express-session'; 
 
-const app = express();
+
 dotenv.config();
 
-const uri = "mongodb+srv://teagadget:teagadget@teagadget.ihhlcxe.mongodb.net/test";
+const app = express();
+
+app.use(session({
+  secret: 'super secret key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+
+const cas = new CASAuthentication({
+  cas_url: 'https://login.sabanciuniv.edu/cas',
+  service_url: `http://localhost:${process.env.PORT || 3000}/admin`,
+  cas_version: '3.0',
+  session_name: 'cas_user',
+  renew: false,
+  is_dev_mode: false,
+  session_info: 'cas_userinfo',
+  destroy_session: false
+});
+
+
+const uri = process.env.MONGO; 
 const client = new MongoClient(uri);
 const database = client.db("TeaGadget");
-const gadgets = database.collection("TeaGadget");    
+const gadgets = database.collection("TeaGadget");
+
 
 const connect = () =>{
     mongoose.connect(process.env.MONGO).then(()=>{
         console.log("DB connected!");
-    }).catch(
-        err=>{throw err;
-    });
+    }).catch(err => {throw err;});
 }
+
 
 
 
 app.listen(process.env.PORT || 5000, ()=>{
     connect();
     console.log("Server is running!");
+});
+
+app.get('/login', cas.bounce_redirect);
+
+
+app.get('/admin', cas.bounce, (req, res) => {
+  if (req.session.cas_user) {
+    res.send(`Hoşgeldiniz, ${req.session.cas_user}`);
+  } else {
+    
+    res.redirect('/');
+  }
+});
+
+app.get('/api/userinfo', cas.bounce, (req, res) => {
+  if (req.session.cas_user) {
+    res.json({ username: req.session.cas_user });
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
 });
 
 app.post("/updatelastbrew", async (req, res) => {

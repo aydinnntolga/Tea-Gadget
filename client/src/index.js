@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import Home from './Home';
 import TeaRooms from './TeaRooms';
 import RoomDetails from './RoomDetails';
+import AdminDashboard from './AdminDashboard';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -18,6 +19,7 @@ export default function App() {
         <Route exact path="/" element={<Home/>}/>
         <Route exact path="/roomdetails" element={<RoomDetails/>}/>
         <Route exact path="/tearooms/:buildingname" element={<TeaRooms/>}/>
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
