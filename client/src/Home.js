@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import './App.css';
 import i18n from './resource';
 
-var isChanged = false;
 
 function Home() {
   const { t } = useTranslation();
@@ -46,11 +45,13 @@ function Home() {
       <p className='secondTitle'>
         {t('buildings')}
       </p>
-      <form action="/tearooms/:FENS" method="post" className="form">
-        <button type="button" value={"FENS"} className='facultybutton'>
-            FENS                   
-        </button>
-      </form>
+      <form action="/tearooms/:FENS" method="post" className="form" name='buildingname'>
+
+          <button value={"FENS"} className='facultybutton'>
+              FENS                   
+          </button>
+        </form>
+        
       <button onClick={redirectToCASLogin} className='loginButton'>
         Login
       </button>
