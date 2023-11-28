@@ -61,6 +61,16 @@ app.get('/admin', cas.bounce, (req, res) => {
   }
 });
 
+app.get("/roomsData",async(req,res) => {
+
+  gadgets.find().toArray()
+  .then(data => {
+      res.json(data);
+  })
+  
+});
+
+
 app.get('/api/userinfo', cas.bounce, (req, res) => {
   if (req.session.cas_user) {
     res.json({ username: req.session.cas_user });
