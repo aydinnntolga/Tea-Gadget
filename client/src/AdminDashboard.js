@@ -1,14 +1,22 @@
-import React from 'react';
-import './AdminDashboard.css'; 
+import React,{useState,useEffect} from 'react';
+import './AdminDashboard.css';
+import axios from 'axios';
+import Chart from 'chart.js/auto';
+import { Bar,Line,Pie } from 'react-chartjs-2';
 
 function AdminDashboard() {
+
+  
+
   return (
     <div className="admin-dashboard">
       <Sidebar />
       <div className="main-content">
         <Header />
-        <WelcomeMessage />
+        <MainContent />
+        
       </div>
+
     </div>
   );
 }
@@ -34,13 +42,120 @@ function Header() {
   );
 }
 
-function WelcomeMessage() {
+
+function MainContent() {
+
+  const [data, setData] = useState(null);
+  const [charType, setVariableValue] = useState('Bar');
+
+  useEffect(() => {                        
+    async function fetchData() {
+      
+      const response = await axios.get('/roomsData'); 
+      setData(response.data);
+    }
+    fetchData();
+  }, []);  //eslint-disable-line
+
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'];
+
+  const updateValue = (newValue) => {
+    setVariableValue(newValue);
+  };
+
   return (
     <div className="welcome-message">
       <h1>Welcome to the Admin Dashboard</h1>
       <p>Manage your tea rooms effectively.</p>
+
+      {data ?
+        <div style={{display:'flex',justifyContent:'center'}}>
+          {data.map((item) => (
+                <button className="roombutton" > {item.faculty_name} {item.room_number} </button>
+            ))}
+        </div> 
+        :<text></text>
+        }
+
+      {data ?
+        <div style={{height: 300,display:'flex',justifyContent:'center',margin:20}}>
+
+          {charType === "Bar"? (
+              <Bar
+              data={{
+              labels: months,
+              datasets: [
+                {
+                  fill:true,
+                  id: 1,
+                  label: 'Brew Count',
+                  data: countElementsByMonth(data[0].brewhistory),
+                },
+                
+              ],
+            }} />
+          ):
+          charType==="Line"?(
+            <Line
+              data={{
+              labels: months,
+              datasets: [
+                {
+                  fill:true,
+                  id: 1,
+                  label: 'Brew Count',
+                  data: countElementsByMonth(data[0].brewhistory),
+                },
+                
+              ],
+            }} />
+          ):
+          charType==="Pie"?(
+            <Pie
+              data={{
+              labels: months,
+              datasets: [
+                {
+                  fill:true,
+                  id: 1,
+                  label: 'Brew Count',
+                  data: countElementsByMonth(data[0].brewhistory),
+                },
+                
+              ],
+            }} />
+          ):
+          <text></text>
+          }
+              
+    
+        </div>
+        :<text></text>}
+
+      <div style={{display:'flex',justifyContent:'center'}}>
+        <button className="roombutton" onClick={() => updateValue('Bar')}> Bar Chart </button>
+        <button className="roombutton"onClick={() => updateValue('Line')}> Line Chart </button>
+        <button className="roombutton"onClick={() => updateValue('Pie')}> Pie Chart </button>
+      </div>
+      
+
     </div>
   );
 }
+
+
+
+const countElementsByMonth = (dates) => {
+  const monthCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+  dates.forEach((date) => {
+    const newDate = new Date(date);
+    const monthKey = newDate.getMonth();
+
+    monthCount[monthKey]++;
+  });
+
+  return monthCount;
+};
 
 export default AdminDashboard;

@@ -44,4 +44,18 @@
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+
+  .roombutton{
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    height: 50px;
+    width: 100px;
+    font-size: 15px;
+    border-radius: 2px;
+    font-weight: bold;
+    border: none;
+    box-shadow: 5px 5px 15px  #d3d3d3;
+    color: rgba(30,138,240,255);  
+    cursor: pointer;
+  }
   
