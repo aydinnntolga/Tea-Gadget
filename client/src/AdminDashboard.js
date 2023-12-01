@@ -25,10 +25,12 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Tea Rooms</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="/logout">Log Out</a></li>
+        <li><a href="#">FENS 2044</a></li>
+        <li><a href="#">FENS 1000</a></li>
+        <li><a href="#">FASS 1050</a></li>
+        <li><a href="#">FMAN 1021</a></li>
+        <li><a href="#">FMAN 2021</a></li>
+
       </ul>
     </div>
   );
@@ -65,8 +67,7 @@ function MainContent() {
 
   return (
     <div className="welcome-message">
-      <h1>Welcome to the Admin Dashboard</h1>
-      <p>Manage your tea rooms effectively.</p>
+      <h1>Admin Dashboard</h1>
 
       {data ?
         <div style={{display:'flex',justifyContent:'center'}}>
@@ -78,7 +79,7 @@ function MainContent() {
         }
 
       {data ?
-        <div style={{height: 300,display:'flex',justifyContent:'center',margin:20}}>
+        <div style={{height: 400,display:'flex',justifyContent:'center',margin:20}}>
 
           {charType === "Bar"? (
               <Bar
@@ -143,6 +144,27 @@ function MainContent() {
   );
 }
 
+
+const countElementsInLastWeek = (dates) => {
+  const dayCount = [0,0,0,0,0,0,0]
+  const currentDate = new Date()
+  const maxDifference = 7*24*60*60*1000
+
+  dates.forEach((date)=>{
+    const elementDate = new Date(date);
+    if(currentDate.getTime-elementDate.getTime < maxDifference ){
+
+      dayCount[elementDate.getDay-1]++
+
+    }
+    else{
+      
+    }
+
+  })
+
+  return dayCount
+}
 
 
 const countElementsByMonth = (dates) => {
