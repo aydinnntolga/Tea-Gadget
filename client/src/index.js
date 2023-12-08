@@ -8,8 +8,7 @@ import RoomDetails from './RoomDetails';
 import AdminDashboard from './AdminDashboard';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-
-
+import TabletInterface from './TabletInterface';
 
 export default function App() {
 
@@ -19,11 +18,13 @@ export default function App() {
         <Route exact path="/" element={<Home/>}/>
         <Route exact path="/roomdetails" element={<RoomDetails/>}/>
         <Route exact path="/tearooms/:buildingname" element={<TeaRooms/>}/>
+        <Route path="/tablet-interface" element={<TabletInterface/>}/> {/* New route */}
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
