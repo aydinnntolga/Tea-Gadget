@@ -50,8 +50,12 @@ function Home() {
           <button value={"FENS"} className='facultybutton'>
               FENS                   
           </button>
-        </form>
-        
+      </form>
+      <form action="/tearooms/:FASS" method="post" className="form" name='buildingname'>
+          <button value={"FASS"} className='facultybutton'>
+              FASS                   
+          </button>
+      </form>
       <button onClick={redirectToCASLogin} className='loginButton'>
         Login
       </button>
