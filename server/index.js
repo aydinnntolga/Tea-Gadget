@@ -19,7 +19,7 @@ app.use(session({
 
 const cas = new CASAuthentication({
   cas_url: 'https://login.sabanciuniv.edu/cas',
-  service_url: `http://localhost:${process.env.PORT || 3000}/admin`,
+  service_url: 'http://192.168.1.38:3000/admin',
   cas_version: '3.0',
   session_name: 'cas_user',
   renew: false,
@@ -60,6 +60,16 @@ app.get('/admin', cas.bounce, (req, res) => {
     res.redirect('/');
   }
 });
+
+app.get("/roomsData",async(req,res) => {
+
+  gadgets.find().toArray()
+  .then(data => {
+      res.json(data);
+  })
+  
+});
+
 
 app.get('/api/userinfo', cas.bounce, (req, res) => {
   if (req.session.cas_user) {
