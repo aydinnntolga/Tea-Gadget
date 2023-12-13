@@ -23,6 +23,10 @@ function AdminDashboard() {
   );
 }
 
+function handleLogout() {
+  window.location.href = 'https://login.sabanciuniv.edu/cas/logout';
+}
+
 function Sidebar({ updateRoomIndex, roomIndex }) {
   
   return (
@@ -44,7 +48,7 @@ function Sidebar({ updateRoomIndex, roomIndex }) {
         
 
       </ul>
-      <a href='/logout' style={{alignItems:'center',display: 'flex',height:'10%',textDecoration: 'none'}}>
+      <a href='https://login.sabanciuniv.edu/cas/logout' onClick={handleLogout} style={{alignItems:'center',display: 'flex',height:'10%',textDecoration: 'none'}}>
         <img src={LogoutIcon} style={{width:20,height:20,paddingLeft:10}} alt='Log out'></img>
         <text style={{marginLeft:5,color:'white'}}>Log Out</text>
       </a>

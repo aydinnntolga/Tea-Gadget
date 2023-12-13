@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.css';
 import i18n from './resource';
-
+import axios from 'axios'
 
 function Home() {
   const { t } = useTranslation();
@@ -29,6 +29,7 @@ function Home() {
     const serviceUrl = encodeURIComponent('http://localhost:3000/admin');
     const casLoginUrl = `https://login.sabanciuniv.edu/cas/login?service=${serviceUrl}`;
     window.location.href = casLoginUrl;
+    
   };
   
 
