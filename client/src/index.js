@@ -7,6 +7,7 @@ import TeaRooms from './TeaRooms';
 import RoomDetails from './RoomDetails';
 import AdminDashboard from './AdminDashboard';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CasLogin from './CasLogin';
 
 import TabletInterface from './TabletInterface';
 
@@ -20,6 +21,7 @@ export default function App() {
         <Route exact path="/tearooms/:buildingname" element={<TeaRooms/>}/>
         <Route path="/tablet-interface" element={<TabletInterface/>}/> {/* New route */}
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path='/caslogin' element={<CasLogin/>} />
       </Routes>
     </BrowserRouter>
   );

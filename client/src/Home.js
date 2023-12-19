@@ -2,10 +2,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.css';
 import i18n from './resource';
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -26,10 +27,7 @@ function Home() {
   }, []);
 
   const redirectToCASLogin = () => {
-    const serviceUrl = encodeURIComponent('http://localhost:3000/admin');
-    const casLoginUrl = `https://login.sabanciuniv.edu/cas/login?service=${serviceUrl}`;
-    window.location.href = casLoginUrl;
-    
+    navigate('/caslogin');    
   };
   
 
@@ -58,7 +56,7 @@ function Home() {
           </button>
       </form>
       <button onClick={redirectToCASLogin} className='loginButton'>
-        Login
+        Login to Admin Page
       </button>
     </div>
   );

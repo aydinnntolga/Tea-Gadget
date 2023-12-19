@@ -12,11 +12,22 @@
 
   const app = express();
 
+  app.use(express.json());
+
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
+
+  const corsOptions = {
+    origin: 'http://localhost:3000', 
+    credentials: true, 
+    optionsSuccessStatus: 200 
+  };
+  
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions)); 
 
   app.use(cors({
     origin: 'http://localhost:3000', 
@@ -49,7 +60,7 @@
   const client = new MongoClient(uri);
   const database = client.db("TeaGadget");
   const gadgets = database.collection("TeaGadget");
-
+  const users = database.collection("Users");
 
   const connect = () =>{
       mongoose.connect(process.env.MONGO).then(()=>{
@@ -60,7 +71,7 @@
 
 
 
-  app.listen(process.env.PORT || 5000, ()=>{
+  app.listen(process.env.PORT || 5001, ()=>{
       connect();
       console.log("Server is running!");
   });
@@ -88,6 +99,23 @@
         res.json(data);
     })
     
+  });
+
+
+  app.post("/usersearch", async (req, res) => {
+    const {username} = req.body;
+    try{
+      const user = await users.findOne({ username: username });
+      if (user) {
+        res.status(200).send("Kullanıcı bulundu");
+      }
+      else{
+        res.send("Kullanıcı bulunamadı");
+      }
+    } catch (e) {
+      console.error("Bir hata oluştu: ", e);
+      res.status(500).send("Sunucu bulunamadı");
+    }
   });
 
 

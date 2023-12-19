@@ -50,4 +50,14 @@ const gadgetSchema = new mongoose.Schema({
 
 });
 
-export default mongoose.model("TeaGadget",gadgetSchema);
+const userSchema = new mongoose.Schema({
+    username:{
+        type:String,
+        required: true,
+    }
+});
+
+const TeaGadget = mongoose.model("TeaGadget", gadgetSchema);
+const User = mongoose.model("User", userSchema);
+
+export { TeaGadget, User };
