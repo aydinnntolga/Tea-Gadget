@@ -18,7 +18,7 @@ export default function App() {
         <Route exact path="/" element={<Home/>}/>
         <Route exact path="/roomdetails" element={<RoomDetails/>}/>
         <Route exact path="/tearooms/:buildingname" element={<TeaRooms/>}/>
-        <Route path="/tablet-interface" element={<TabletInterface/>}/> {/* New route */}
+        <Route path="/tablet-interface/:roomId" element={<TabletInterface/>}/> {/* New route */}
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>

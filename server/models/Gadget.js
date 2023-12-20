@@ -13,11 +13,6 @@ const gadgetSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    countdown:{
-        type:Date,
-        required: true,
-
-    },
     cupstaken:{
         type: Array,
         required: true,
@@ -46,6 +41,15 @@ const gadgetSchema = new mongoose.Schema({
         type: Number,
         required:true,
         default:0
+    },
+    roomId:{
+        type:String,
+        required: true
+    },
+    drinks:{
+        type:Array,
+        required:true,
+        default: []
     }
 
 });
