@@ -22,7 +22,10 @@ i18n
                 now: "Now",
                 getting_ready:"Getting Ready",
                 tea_ran_out: "Tea Ran Out",
-                language:"EN"
+                language:"EN",
+                tea:"Tea",
+                coffee:"Coffee",
+                turkish_coffee:"Turkish Coffee"
             },
         },
         tr: {
@@ -42,7 +45,10 @@ i18n
                 now:"Şimdi",
                 getting_ready:"Hazırlanıyor",
                 tea_ran_out: "Çay Bitti",
-                language:"TR"
+                language:"TR",
+                tea:"Çay",
+                coffee:"Kahve",
+                turkish_coffee:"Türk Kahvesi"
             },
         },
     },

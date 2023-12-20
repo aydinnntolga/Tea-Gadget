@@ -118,6 +118,10 @@ class LiveClockUpdate extends Component {
       else{
         return (
           <div>
+            {this.props.drinkname?
+              <text > {t(this.props.drinkname)} {"\n"}</text>
+              :<text></text>
+            }
             <text>
             {t('status')} : &nbsp;
             </text>

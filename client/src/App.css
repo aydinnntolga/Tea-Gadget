@@ -32,13 +32,30 @@ body {
   color: white;
   font-size: 30px;
   width: 100%;
+  margin-block: 5px;
 }
 
 .roombutton{
   background-color: rgb(255, 255, 255);
   text-align: left;
-  height: 250px;
+  height: auto;
   width: 280px;
+  font-size: 22px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  box-shadow: 5px 5px 15px  #d3d3d3;
+  color:#93abc1;
+  white-space: pre-line;
+  line-height: 40px;
+  margin: 10px;
+}
+
+.roomInfo{
+  background-color: rgb(255, 255, 255);
+  text-align: left;
+  height: auto;
+  width: 80%;
   font-size: 22px;
   border-radius: 10px;
   font-weight: bold;
@@ -102,6 +119,16 @@ body {
   margin-top: 10px;
 }
 
+.verticalContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.horizontalContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 .App-header {
   flex-direction: column;

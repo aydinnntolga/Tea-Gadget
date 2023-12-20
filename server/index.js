@@ -127,20 +127,23 @@
     }
   });
 
-  app.post("/updatelastbrew", async (req, res) => {
-      const room = parseInt(req.headers['roomnum']);
+app.post("/updatelastbrew", async (req, res) => {
+    const roomId = req.headers['id'];
+    const drinkname = req.headers['drinkname'];
 
-      const filter = {room_number:room};
-      const currentdate = new Date();
-      const updateddate = currentdate.toLocaleString()
-      const updateDoc = {
-        $set: {
-          sincelastbrew: updateddate,
-          cauldron_status: "nonempty"
-        },
-        $push: {
-          brewhistory: updateddate
-        }
+    console.log(roomId, drinkname);
+
+    const filter = {roomId,"drinks.drink_name": drinkname};
+    const currentdate = new Date();
+    const updateddate = currentdate.toLocaleString()
+    const updateDoc = {
+      $set: {
+        "drinks.$.sincelastbrew": updateddate,
+        "drinks.$.cauldron_status": "nonempty" 
+      },
+      $push: {
+        "drinks.$.brewhistory": updateddate
+      }
 
       };
       const result = await gadgets.updateOne(filter, updateDoc);
@@ -150,24 +153,63 @@
       res.redirect("/");
   });
 
-  app.post("/tearanout", async (req,res)=>{
+app.post("/tearanout", async (req,res)=>{
+  const roomId = req.headers['id'];
+  const drinkname = req.headers['drinkname'];
 
-    const room = parseInt(req.headers['roomnum']);
+  const filter = {roomId,"drinks.drink_name": drinkname};
 
+  const updateDoc = {
+    $set: {
+      "drinks.$.cauldron_status": "empty" 
+    },
+  };
+  const result = await gadgets.updateOne(filter, updateDoc);
+  console.log(
+    `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+  );
+  res.redirect("/");  
 
-    const filter = {room_number:room};
-    const updateDoc = {
-      $set: {
-        cauldron_status: "empty"
-      },
-    };
-    const result = await gadgets.updateOne(filter, updateDoc);
+})
+
+app.post("/addnewdrink", async (req,res)=>{
+
+  const roomId = req.headers['id'];
+  const drinkname = req.headers['drinkname'];
+  const prepTime = parseInt(req.headers['preptime']);
+
+  console.log(drinkname,prepTime);
+
+  const newDrink = { drink_name: drinkname, prep_time: prepTime , sincelastbrew: "", brewhistory: new Array(), cauldron_status:"empty"};
+  const filter = {roomId: roomId};
+  const updateDoc = {
+    $push: {
+      drinks: newDrink
+    }
+  };
+  const result = await gadgets.updateOne(filter, updateDoc);
     console.log(
       `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
     );
-    res.redirect("/");  
+    res.redirect("/");
+})
 
-  })
+app.post("/deletedrink", async (req,res)=>{
+
+  const roomId = req.headers['id'];
+  const drinkNameToRemove = req.headers['drinkname'];
+
+  const filter = {roomId: roomId};
+
+  const updateDoc = {
+     $pull: { drinks: { drink_name: drinkNameToRemove } } 
+  };
+  const result = await gadgets.updateOne(filter, updateDoc);
+    console.log(
+      `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+    );
+    res.redirect("/");
+})
 
   app.post("/teaready", async (req,res)=>{
 
@@ -227,19 +269,31 @@
 
   app.get("/tearooms/:buildingname",async(req,res) => {
 
-      gadgets.find({faculty_name:req.params.buildingname.substring(1)}).toArray()
-      .then(data => {
-          /*const time = { 
-              brewtime_millisecond: data.sincelastbrew.getTime(),
-              room:data.room_number,
-              brewdate : data.sincelastbrew.toLocaleTimeString(),
-              floor: data.floor,
-              cauldronstatus: data.cauldron_status
-            };*/
-          res.json(data);
-      })
-      
-  });
+    gadgets.find({faculty_name:req.params.buildingname.substring(1)}).toArray()
+    .then(data => {
+        /*const time = { 
+            brewtime_millisecond: data.sincelastbrew.getTime(),
+            room:data.room_number,
+            brewdate : data.sincelastbrew.toLocaleTimeString(),
+            floor: data.floor,
+            cauldronstatus: data.cauldron_status
+          };*/
+        res.json(data);
+    })
+    
+});
+
+app.get("/tablet-interface/:roomid",async(req,res) => {
+
+  const searchString = req.params.roomid.substring(1);
+
+  gadgets.find({roomId: searchString}).toArray()
+  .then(data => {
+      console.log(data.length);
+      res.json(data);
+  })
+  
+});
 
   app.post("/tearooms/:buildingname", (req, res) => {
       console.log("tea rooms loaded");
