@@ -71,7 +71,7 @@
 
 
 
-  app.listen(process.env.PORT || 5001, ()=>{
+  app.listen(process.env.PORT || 5000, ()=>{
       connect();
       console.log("Server is running!");
   });
@@ -93,7 +93,7 @@
   });
 
   app.get("/roomsData",async(req,res) => {
-
+    console.log("hi")
     gadgets.find().toArray()
     .then(data => {
         res.json(data);

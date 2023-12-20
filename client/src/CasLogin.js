@@ -6,7 +6,7 @@ function CasLogin() {
 
   const checkUser = async () => {
     try {
-      const response = await fetch('http://localhost:5001/usersearch', {
+      const response = await fetch('http://localhost:5000/usersearch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
