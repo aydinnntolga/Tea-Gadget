@@ -35,6 +35,9 @@ function Home() {
   return (
     <div className="App">
       <div style={{ display: "flex" }}>
+        <button onClick={redirectToCASLogin} className='languageButton' style={{marginInline:20}}>
+          Login
+        </button>
         <button onClick={handleClick} className='languageButton'>
           {t('language')}
         </button>
@@ -56,9 +59,18 @@ function Home() {
               FASS                   
           </button>
       </form>
-      <button onClick={redirectToCASLogin} className='loginButton'>
-        Login
-      </button>
+      <form action="/tearooms/:FMAN" method="post" className="form" name='buildingname'>
+          <button value={"FMAN"} className='facultybutton'>
+              FMAN                   
+          </button>
+      </form>
+      <form action="/tearooms/:SL" method="post" className="form" name='buildingname'>
+          <button value={"SL"} className='facultybutton'>
+              SL                   
+          </button>
+      </form>
+      <br></br>
+      
     </div>
   );
 }

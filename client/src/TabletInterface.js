@@ -5,11 +5,16 @@ import axios from 'axios';
 import LiveClockUpdate from "./Components/LiveClockUpdate";
 import { useTranslation } from 'react-i18next';
 import './App.css';
+import i18n from './resource'; 
+
+var isChanged = false;
 
 function TabletInterface () {
   
   const { roomId } = useParams();
   const [data, setData] = useState(null);
+  const allDrinks = ["tea","coffee","turkish_coffee"];
+  var drinkToAdd = [];
 
   useEffect(() => {                         // warninge sonra bak
     async function fetchData() {
@@ -21,6 +26,22 @@ function TabletInterface () {
   }, []);  //eslint-disable-line
 
   const { t } = useTranslation();
+
+
+  const getDrinks = async () => {
+    allDrinks.forEach((item) => {
+      const index = data[0].drinks.findIndex((drink) => drink.drink_name === item);
+      if(index === -1){
+        drinkToAdd.push(item)
+      }
+    });  
+  }
+
+  
+  if (!isChanged) {
+    i18n.changeLanguage('tr');
+    isChanged = true;
+  }
 
   const addNewDrink = async () => {
     const headers = new Headers();
@@ -66,6 +87,7 @@ function TabletInterface () {
 
   const [isEditActive, setEditMode] = useState(false);
   const updateEditMode = (mode)=>{
+    
     setEditMode(mode);
   }
 
@@ -86,6 +108,7 @@ function TabletInterface () {
   };
 
   const tearanout = async (roomId,drinkname) => {
+
 
     const headers = new Headers();
     headers.append('id', roomId);
@@ -111,6 +134,8 @@ function TabletInterface () {
   const handleTimeChange = (e) => {
     setTime(e.target.value);
   };
+
+  getDrinks();
 
   return (
     
@@ -160,6 +185,7 @@ function TabletInterface () {
                             time={drink.sincelastbrew} 
                             date={drink.sincelastbrew} 
                             status={drink.cauldron_status} 
+                            preptime = {drink.prep_time}
                             />
 
                           </div>                      
@@ -186,8 +212,9 @@ function TabletInterface () {
                         <label>
                           İçecek adı:{"\n"}
                           <select style={{width:100,height:30,fontSize:20}}  onChange={handleNameChange}>
-                            <option value="coffee">{t('coffee')}</option>
-                            <option value="turkish_coffee">{t('turkish_coffee')}</option>
+                            {drinkToAdd.map((item)=>(
+                              <option value={item}>{t(item)}</option>
+                            ))}
                           </select>
                         </label>
                         <br />
