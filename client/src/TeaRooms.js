@@ -99,7 +99,9 @@ function TeaRooms(props) {
                         time={drink.sincelastbrew} 
                         date={drink.sincelastbrew} 
                         status={drink.cauldron_status} 
-                        drinkname= {drink.drink_name} />
+                        drinkname= {drink.drink_name}
+                        preptime= {drink.prep_time}
+                        />
 
                         <ColoredLine color="#93abc1" />
                       </div>

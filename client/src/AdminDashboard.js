@@ -5,8 +5,11 @@ import 'chart.js/auto';
 import { Bar,Line,Pie } from 'react-chartjs-2';
 import LogoutIcon from './Images/Logout.png';
 
+import { useTranslation } from 'react-i18next';
+
 
 function AdminDashboard() {
+
   
   const [roomIndex, setIndex] = useState(0);
   const updateRoomIndex = (index)=>{
@@ -47,8 +50,47 @@ function Sidebar({ updateRoomIndex, roomIndex }) {
           <a href='/' style={{padding:10}} onClick={(e) =>{
             e.preventDefault();
             updateRoomIndex(1);
-            }}>FASS 2020</a>
+            }}>FENS 1017</a>
         </li>
+
+        <li style={{cursor:'pointer',  background: roomIndex===2? '#4a5865':'none'}}  >
+          <a href='/' style={{padding:10}} onClick={(e) =>{
+            e.preventDefault();
+            updateRoomIndex(2);
+            }}>FENS G066</a>
+        </li>
+        <li style={{cursor:'pointer',  background: roomIndex===3? '#4a5865':'none'}}  >
+          <a href='/' style={{padding:10}} onClick={(e) =>{
+            e.preventDefault();
+            updateRoomIndex(3);
+            }}>FASS 1060</a>
+        </li>
+        <li style={{cursor:'pointer',  background: roomIndex===4? '#4a5865':'none'}}  >
+          <a href='/' style={{padding:10}} onClick={(e) =>{
+            e.preventDefault();
+            updateRoomIndex(4);
+            }}>FASS 2043</a>
+        </li>
+
+        <li style={{cursor:'pointer',  background: roomIndex===5? '#4a5865':'none'}}  >
+          <a href='/' style={{padding:10}} onClick={(e) =>{
+            e.preventDefault();
+            updateRoomIndex(5);
+            }}>FMAN G078</a>
+        </li>
+        <li style={{cursor:'pointer',  background: roomIndex===6? '#4a5865':'none'}}  >
+          <a href='/' style={{padding:10}} onClick={(e) =>{
+            e.preventDefault();
+            updateRoomIndex(6);
+            }}>FMAN 1037</a>
+        </li>
+        <li style={{cursor:'pointer',  background: roomIndex===7? '#4a5865':'none'}}  >
+          <a href='/' style={{padding:10}} onClick={(e) =>{
+            e.preventDefault();
+            updateRoomIndex(7);
+            }}>SL 1042</a>
+        </li>
+
       </ul>
         
       <a href='https://login.sabanciuniv.edu/cas/logout' onClick={handleLogout} style={{alignItems:'center',display: 'flex',height:'10%',textDecoration: 'none'}}>
@@ -66,7 +108,7 @@ function MainContent({ roomIndex }) {
   const [data, setData] = useState(null);
   const [charType, setCharType] = useState('Bar');
   const [interval, setTimeInterval] = useState('Monthly');
-
+  const [drinktype, setDrinkType] = useState(0);
 
   useEffect(() => {                        
     async function fetchData() {
@@ -87,6 +129,11 @@ function MainContent({ roomIndex }) {
     setTimeInterval(interval);
   }
 
+  const handleNameChange = (e) => {
+    setDrinkType(e.target.value);
+  };
+
+  const { t } = useTranslation();
 
   return (
     <div className="welcome-message">
@@ -98,8 +145,16 @@ function MainContent({ roomIndex }) {
           <button className="sidebarRoomButton" onClick={() => updateTimeInterval('Daily')}> Daily </button>
         </div>
       {data ?
-        <div style={{height:400,display:'flex',justifyContent:'center',margin:20}} >
+        <div style={{height:400,display:'flex',justifyContent:'left',margin:20}} >
 
+          <div className='horizontalContainer' style={{marginInlineEnd:100}}>
+            <select style={{width:100,height:30,fontSize:20}}  onChange={handleNameChange}>
+              {data[roomIndex].drinks.map((item,index)=>(
+                <option value={index}> {t(item.drink_name)} </option>
+              ))}
+            </select>
+          </div>
+          
           {charType === "Bar"? (
               <Bar
               data={{
@@ -109,7 +164,7 @@ function MainContent({ roomIndex }) {
                   fill:true,
                   id: 1,
                   label: 'Brew Count',
-                  data: countElements(data[roomIndex].brewhistory,interval),
+                  data: countElements(data,roomIndex,drinktype,interval),
                 },
                 
               ],
@@ -124,7 +179,7 @@ function MainContent({ roomIndex }) {
                   fill:true,
                   id: 1,
                   label: 'Brew Count',
-                  data: countElements(data[roomIndex].brewhistory,interval),
+                  data: countElements(data,roomIndex,drinktype,interval),
                 },
                 
               ],
@@ -139,7 +194,90 @@ function MainContent({ roomIndex }) {
                   fill:true,
                   id: 1,
                   label: 'Brew Count',
-                  data: countElements(data[roomIndex].brewhistory,interval),
+                  data: countElements(data,roomIndex,drinktype,interval),
+                },
+                
+              ],
+            }} />
+          ):
+          <text></text>
+          }
+              
+    
+        </div>
+        :<text></text>}
+
+      </div>
+
+      {data ?
+        <div style={{display:'flex',justifyContent:'center'}}>
+          <button className="sidebarRoomButton" onClick={() => updateCharType('Bar')}> Bar Chart </button>
+          <button className="sidebarRoomButton"onClick={() => updateCharType('Line')}> Line Chart </button>
+          <button className="sidebarRoomButton"onClick={() => updateCharType('Pie')}> Pie Chart </button>
+        </div>
+        :<text>
+
+        </text>
+      }      
+
+      <h1>Admin Dashboard</h1>
+
+      <div>
+        <div style={{alignItems: 'center',display:'flex',justifyContent:'center'}}>
+          <button className="sidebarRoomButton" onClick={() => updateTimeInterval('Monthly')}> Monthly </button>
+          <button className="sidebarRoomButton" onClick={() => updateTimeInterval('Daily')}> Daily </button>
+        </div>
+      {data ?
+        <div style={{height:400,display:'flex',justifyContent:'left',margin:20}} >
+
+          <div className='horizontalContainer' style={{marginInlineEnd:100}}>
+            <select style={{width:100,height:30,fontSize:20}}  onChange={handleNameChange}>
+              {data[roomIndex].drinks.map((item,index)=>(
+                <option value={index}> {t(item.drink_name)} </option>
+              ))}
+            </select>
+          </div>
+          
+          {charType === "Bar"? (
+              <Bar
+              data={{
+              labels: GetLabels(interval),
+              datasets: [
+                {
+                  fill:true,
+                  id: 1,
+                  label: 'Brew Count',
+                  data: countElements(data,roomIndex,drinktype,interval),
+                },
+                
+              ],
+            }} />
+          ):
+          charType==="Line"?(
+            <Line
+              data={{
+              labels: GetLabels(interval),
+              datasets: [
+                {
+                  fill:true,
+                  id: 1,
+                  label: 'Brew Count',
+                  data: countElements(data,roomIndex,drinktype,interval),
+                },
+                
+              ],
+            }} />
+          ):
+          charType==="Pie"?(
+            <Pie
+              data={{
+              labels: GetLabels(interval),
+              datasets: [
+                {
+                  fill:true,
+                  id: 1,
+                  label: 'Brew Count',
+                  data: countElements(data,roomIndex,drinktype,interval),
                 },
                 
               ],
@@ -272,16 +410,24 @@ const GetLabels = (interval) => {
 }
 
 
-const countElements = (dates,interval) => {
+const countElements = (data,roomindex,drinkindex,interval) => {
+
+
+  if(drinkindex > data[roomindex].drinks.length-1){
+    drinkindex=0
+  }
+
+  const chosenData = data[roomindex].drinks[drinkindex].brewhistory;
 
   if(interval === "Monthly"){
     const monthCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+    const currentMonth = 11 - new Date().getMonth();
 
-    dates.forEach((date) => {
+    chosenData.forEach((date) => {
       const newDate = new Date(date);
       const monthKey = newDate.getMonth();
   
-      monthCount[monthKey]++;
+      monthCount[(monthKey+currentMonth)%12]++;
     });
   
     return monthCount;
@@ -292,7 +438,7 @@ const countElements = (dates,interval) => {
     const startingIndex = 6-currentDate.getDay()
     const maxDifference = 7*24*60*60*1000
   
-    dates.forEach((date)=>{
+    chosenData.forEach((date)=>{
       const elementDate = new Date(date);
       if(currentDate.getTime()-elementDate.getTime()< maxDifference ){
   

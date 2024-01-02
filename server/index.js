@@ -131,12 +131,11 @@ app.post("/updatelastbrew", async (req, res) => {
     const roomId = req.headers['id'];
     const drinkname = req.headers['drinkname'];
 
-    console.log(roomId, drinkname);
 
     const filter = {roomId,"drinks.drink_name": drinkname};
     const currentdate = new Date();
     const updateddate = currentdate.toLocaleString()
-    const updateDoc = {
+    const startbrew = {
       $set: {
         "drinks.$.sincelastbrew": updateddate,
         "drinks.$.cauldron_status": "nonempty" 
@@ -145,13 +144,34 @@ app.post("/updatelastbrew", async (req, res) => {
         "drinks.$.brewhistory": updateddate
       }
 
-      };
-      const result = await gadgets.updateOne(filter, updateDoc);
-      console.log(
-        `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-      );
-      res.redirect("/");
-  });
+    };
+
+    const restartbrew = {
+      $set: {
+        "drinks.$.sincelastbrew": updateddate,
+        "drinks.$.cauldron_status": "nonempty" 
+      },
+      $pop: {
+        "drinks.$.brewhistory": 1
+      },
+    };
+
+
+    const doc = await gadgets.findOne(filter);
+    const drink = doc.drinks.find(drink => drink.drink_name === drinkname)
+    const lastbrewdate = new Date(drink.sincelastbrew);
+
+    if((currentdate.getTime() - lastbrewdate.getTime())/60000>= drink.prep_time){
+      await gadgets.updateOne(filter, startbrew);
+    }
+    else{
+      await gadgets.updateOne(filter, restartbrew);
+      await gadgets.updateOne(filter, startbrew);
+    }
+
+    
+    res.redirect("/");
+});
 
 app.post("/tearanout", async (req,res)=>{
   const roomId = req.headers['id'];

@@ -28,25 +28,30 @@ class LiveClockUpdate extends Component {
 
 
   render() {
+    const preptime = this.props.preptime
+
     const myTimestamp = new Date(this.props.time).getTime()
     const { t } = i18n
-    var remainingTime = parseInt(21-((this.state.date.getTime()-myTimestamp))/60000)
+    var remainingTime = parseInt((preptime+1)-((this.state.date.getTime()-myTimestamp))/60000)
     var hoursElapsed = parseInt((this.state.date.getTime()-myTimestamp)/3600000)
     var minutesElapsed = parseInt(((this.state.date.getTime()-myTimestamp)/60000)%60)
 
-    if(this.props.status==="empty"){
+    if(this.props.status==="empty" || remainingTime <-(12*60)){
       return (
         <div>
+          {this.props.drinkname?
+              <div className="verticalContainer">
+                <text > {t(this.props.drinkname)} {"\n"}</text>
+              </div>
+            :<text></text>
+          }
           <text>
           {t('status')}: &nbsp;
           </text>
           <text style={{color:"LightCoral"}}>
-          {t('tea_ran_out')} {"\n"}
+          {t('ran_out')} {"\n"}
           </text>        
-          <text>
-          {t('ready_in')}
-            {"\n"}
-          </text>
+          
           <text>
           {t('last_brewing_time')} {"\n"}
             {hoursElapsed> 0 &&
@@ -76,6 +81,12 @@ class LiveClockUpdate extends Component {
       if(remainingTime>0){
         return (
           <div>
+            {this.props.drinkname?
+              <div className="verticalContainer">
+                <text > {t(this.props.drinkname)} {"\n"}</text>
+              </div>
+              :<text></text>
+            }
             <text>
             {t('status')}: &nbsp;
             </text>
@@ -83,7 +94,7 @@ class LiveClockUpdate extends Component {
             {t('getting_ready')} {"\n"}
             </text>        
             <text>
-            {t('ready_in')} &nbsp;
+            {t('ready_in')}: &nbsp;
               <span className="highlight">
                 {remainingTime} {t('minutes')} 
               </span>
@@ -119,7 +130,9 @@ class LiveClockUpdate extends Component {
         return (
           <div>
             {this.props.drinkname?
-              <text > {t(this.props.drinkname)} {"\n"}</text>
+              <div className="verticalContainer">
+                <text > {t(this.props.drinkname)} {"\n"}</text>
+              </div>
               :<text></text>
             }
             <text>
@@ -128,9 +141,6 @@ class LiveClockUpdate extends Component {
             <text style={{color:"DeepSkyBlue"}}>
             {t('ready')} {"\n"}
             </text>         
-            <text>
-            {t('ready_in')}:{"\n"}
-            </text>
             <text>
               {t('last_brewing_time')} {"\n"}
               {hoursElapsed> 0 &&
