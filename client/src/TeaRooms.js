@@ -14,6 +14,7 @@ function TeaRooms(props) {
   const { buildingname } = useParams();
   const { t } = useTranslation();
 
+
   useEffect(() => {                         // warninge sonra bak
     async function fetchData() {
       
@@ -41,6 +42,27 @@ function TeaRooms(props) {
     isChanged = true;
   }
 
+  const [roomIndex, setIndex] = useState("");
+  const updateRoomIndex = (index)=>{
+
+    if(index === roomIndex){
+      setIndex("");
+    }
+    else{
+      setIndex(index)
+    }
+  }
+
+  const ColoredLine = ({ color }) => (
+    <hr
+        style={{
+            color: color,
+            backgroundColor: color,
+            height: 1
+        }}
+    />
+);
+
   return (
     <body>     
       <div className="App">
@@ -58,18 +80,39 @@ function TeaRooms(props) {
         </p>
 
         {data ? 
-            <div>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
               {data.map((item) => (
-                <button className="roombutton">
+                <button className="roombutton" onClick={() => updateRoomIndex(item.room_number.toString())}>
+
                 <div className='roomheader'>
-                {t('room')} {item.room_number} {"\n"}
-                {t('floor')} { item.floor}{"\n"}
+                  {t('room')} {item.room_number} {"\n"}
+                  {t('floor')} { item.floor}{"\n"}
 
                 </div>
                 
-
-                <LiveClockUpdate time={item.sincelastbrew} date={item.sincelastbrew} status={item.cauldron_status} />
+                { roomIndex === item.room_number.toString() ?(
                   
+                  <div>
+                    {item.drinks.map((drink) => (
+                      <div>
+                        <LiveClockUpdate 
+                        time={drink.sincelastbrew} 
+                        date={drink.sincelastbrew} 
+                        status={drink.cauldron_status} 
+                        drinkname= {drink.drink_name}
+                        preptime= {drink.prep_time}
+                        />
+
+                        <ColoredLine color="#93abc1" />
+                      </div>
+                    ))}
+                    
+                  </div>
+                  
+                ):<text>
+
+                </text>
+                }
                 </button>            
 
               ))}        
