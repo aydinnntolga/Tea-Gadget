@@ -453,5 +453,4 @@ const countElements = (data,roomindex,drinkindex,interval) => {
 }
 
 
-
 export default AdminDashboard;
