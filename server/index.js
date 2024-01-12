@@ -302,7 +302,7 @@ app.post("/deletedrink", async (req,res)=>{
     const room = req.headers['roomID'];
     const fullness = parseInt(req.headers['fullness']);
 
-    const filter = {room_number:room};
+    const filter = {roomId:room};
 
     const updateDoc = {
       $set: {
@@ -320,7 +320,7 @@ app.post("/deletedrink", async (req,res)=>{
     const room = req.headers['roomID'];
     const fullness = parseInt(req.headers['fullness']);
 
-    const filter = {room_number:room};
+    const filter = {roomId:room};
 
     const updateDoc = {
       $set: {
