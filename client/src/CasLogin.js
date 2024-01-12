@@ -29,7 +29,7 @@ function CasLogin() {
   };
 
   const redirectToCASLogin = () => {
-    const serviceUrl = encodeURIComponent('http://10.36.2.46/:3000/admin');
+    const serviceUrl = encodeURIComponent('http://10.36.2.46:3000/admin');
     const casLoginUrl = `https://login.sabanciuniv.edu/cas/login?service=${serviceUrl}`;
     window.location.href = casLoginUrl;
     
