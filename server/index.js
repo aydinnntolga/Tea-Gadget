@@ -299,7 +299,7 @@ app.post("/deletedrink", async (req,res)=>{
   })
 
   app.post("/teafullness", async (req,res)=>{
-    const room = req.headers['roomID'].toString();
+    const room = req.headers['roomID'];
     const fullness = parseInt(req.headers['fullness']);
 
     console.log(room,fullness);
@@ -323,7 +323,7 @@ app.post("/deletedrink", async (req,res)=>{
 
   app.post("/waterfullness", async (req,res)=>{
 
-    const room = req.headers['roomID'].toString();;
+    const room = req.headers['roomID'];
     const fullness = parseInt(req.headers['fullness']);
     console.log(room,fullness);
 
