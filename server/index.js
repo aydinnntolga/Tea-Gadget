@@ -93,7 +93,6 @@
   });
 
   app.get("/roomsData",async(req,res) => {
-    console.log("hi")
     gadgets.find().toArray()
     .then(data => {
         res.json(data);
@@ -184,10 +183,24 @@ app.post("/tearanout", async (req,res)=>{
       "drinks.$.cauldron_status": "empty" 
     },
   };
-  const result = await gadgets.updateOne(filter, updateDoc);
-  console.log(
-    `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-  );
+
+  const updateTeaDoc = {
+    $set: {
+      teafullness:-1,
+      waterfullness:-1,
+      "drinks.$.cauldron_status": "empty" 
+    },
+  }
+
+
+
+  if(drinkname == "tea"){
+    await gadgets.updateOne(filter, updateTeaDoc);
+  }
+  else{
+    await gadgets.updateOne(filter, updateDoc);
+  }
+
   res.redirect("/");  
 
 })
@@ -284,6 +297,43 @@ app.post("/deletedrink", async (req,res)=>{
     res.redirect("/");  
 
   })
+
+  app.post("/teafullness", async (req,res)=>{
+    const room = parseInt(req.headers['roomnum']);
+    const fullness = parseInt(req.headers['fullness']);
+
+    const filter = {room_number:room};
+
+    const updateDoc = {
+      $set: {
+        teafullness: fullness
+      }
+    };
+    await gadgets.updateOne(filter, updateDoc);
+    res.redirect("/");  
+
+
+  })
+
+  app.post("/waterfullness", async (req,res)=>{
+
+    const room = parseInt(req.headers['roomnum']);
+    const fullness = parseInt(req.headers['fullness']);
+
+    const filter = {room_number:room};
+
+    const updateDoc = {
+      $set: {
+        waterfullness: fullness
+      }
+    };
+    await gadgets.updateOne(filter, updateDoc);
+    res.redirect("/");  
+
+
+  })
+
+
 
 
 

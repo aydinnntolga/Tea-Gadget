@@ -50,6 +50,16 @@ const gadgetSchema = new mongoose.Schema({
         type:Array,
         required:true,
         default: []
+    },
+    teafullness:{
+        type: Number,
+        required:true,
+        default:0
+    },
+    waterfullness:{
+        type: Number,
+        required:true,
+        default:0
     }
 
 });

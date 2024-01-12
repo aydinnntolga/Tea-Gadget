@@ -1,5 +1,4 @@
 import './App.css';
-import cauldron from './Images/Cauldron.png'
 
 function RoomDetails() {
   return (
@@ -20,7 +19,6 @@ function RoomDetails() {
             Last brewing time: {"\n"}
             30 Minutes Ago          
         </div>
-        <img style={{width:"100px",height:"160px"}} src={cauldron}></img>
          
       </div> 
       <form action="../../post" method="post" 

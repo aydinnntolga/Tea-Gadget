@@ -93,8 +93,19 @@ function TeaRooms(props) {
                 { roomIndex === item.room_number.toString() ?(
                   
                   <div>
-                    {item.drinks.map((drink) => (
+                    {item.drinks.map((drink,index) => (
                       <div>
+                        {index===0?
+                        <LiveClockUpdate 
+                        time={drink.sincelastbrew} 
+                        date={drink.sincelastbrew} 
+                        status={drink.cauldron_status} 
+                        drinkname= {drink.drink_name}
+                        preptime= {drink.prep_time}
+                        teafullness = {item.teafullness}
+                        waterfullness = {item.waterfullness}
+                        />
+                        :
                         <LiveClockUpdate 
                         time={drink.sincelastbrew} 
                         date={drink.sincelastbrew} 
@@ -102,6 +113,7 @@ function TeaRooms(props) {
                         drinkname= {drink.drink_name}
                         preptime= {drink.prep_time}
                         />
+                        }
 
                         <ColoredLine color="#93abc1" />
                       </div>
