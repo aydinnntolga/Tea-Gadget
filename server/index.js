@@ -302,6 +302,8 @@ app.post("/deletedrink", async (req,res)=>{
     const room = req.headers['roomID'];
     const fullness = parseInt(req.headers['fullness']);
 
+    console.log(room,fullness);
+
     const filter = {roomId:room};
 
     const updateDoc = {
@@ -309,7 +311,11 @@ app.post("/deletedrink", async (req,res)=>{
         teafullness: fullness
       }
     };
-    await gadgets.updateOne(filter, updateDoc);
+    const result = await gadgets.updateOne(filter, updateDoc);
+
+    console.log(
+      `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+    );
     res.redirect("/");  
 
 
@@ -319,6 +325,7 @@ app.post("/deletedrink", async (req,res)=>{
 
     const room = req.headers['roomID'];
     const fullness = parseInt(req.headers['fullness']);
+    console.log(room,fullness);
 
     const filter = {roomId:room};
 
@@ -327,7 +334,11 @@ app.post("/deletedrink", async (req,res)=>{
         waterfullness: fullness
       }
     };
-    await gadgets.updateOne(filter, updateDoc);
+    const result = await gadgets.updateOne(filter, updateDoc);
+    console.log(
+      `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+    );
+
     res.redirect("/");  
 
 
