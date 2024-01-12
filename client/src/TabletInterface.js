@@ -195,7 +195,7 @@ function TabletInterface () {
                       <div style={{width:"20%"}}>
                         {isEditActive ===true ?
                           <form onSubmit={() =>tearanout(item.roomId,drink.drink_name)}>
-                            <button type="submit" className='facultybutton' style={{width:"100%",height:80}}>Bitir</button>
+                            <button type="submit" className='facultybutton' style={{width:"100%",height:80}}>Bitti</button>
                           </form>
                           :<text></text>
                         }

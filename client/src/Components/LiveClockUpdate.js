@@ -169,9 +169,9 @@ class LiveClockUpdate extends Component {
               <div>
                 {this.props.teafullness !==-1?
                   <text>
-                     {"\n"} {t('tea_fullness')}: 
+                      {t('tea_fullness')}: 
                      <span className="highlight">
-                      {this.props.teafullness}% {"\n"}
+                     {' '} {this.props.teafullness}% {"\n"}
                     </span>
                   </text>
                   :<div></div>
@@ -183,9 +183,9 @@ class LiveClockUpdate extends Component {
               <div>
               {this.props.waterfullness !==-1?
                 <text>
-                   {"\n"} {t('water_fullness')}:
+                    {t('water_fullness')}:
                    <span className="highlight">
-                    {this.props.waterfullness}% {"\n"}
+                   {' '} {this.props.waterfullness}% {"\n"}
                    </span>
                 </text>
                 :<div></div>
