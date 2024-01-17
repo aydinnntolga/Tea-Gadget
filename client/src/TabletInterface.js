@@ -13,7 +13,7 @@ function TabletInterface () {
   
   const { roomId } = useParams();
   const [data, setData] = useState(null);
-  const allDrinks = ["tea","coffee","turkish_coffee"];
+  const allDrinks = ["tea","coffee","turkish_coffee","linden"];
   var drinkToAdd = [];
 
   useEffect(() => {                         // warninge sonra bak

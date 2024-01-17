@@ -27,7 +27,8 @@ i18n
                 coffee:"Coffee",
                 turkish_coffee:"Turkish Coffee",
                 tea_fullness:"Tea Level",
-                water_fullness:"Water Level"
+                water_fullness:"Water Level",
+                linden: "Linden"
             },
         },
         tr: {
@@ -52,7 +53,8 @@ i18n
                 coffee:"Kahve",
                 turkish_coffee:"Türk Kahvesi",
                 tea_fullness:"Çay Doluluk Oranı",
-                water_fullness:"Su Doluluk Oranı"
+                water_fullness:"Su Doluluk Oranı",
+                linden: "Ihlamur"
             },
         },
     },
